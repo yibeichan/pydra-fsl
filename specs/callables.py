@@ -95,3 +95,29 @@ def FAST_output_infile(field, in_files, out_basename):
         # single image segmentation has unnumbered output image
         outputs.append(f"{out_basename}_{suffix}")
     return outputs
+
+
+def FEAT_output(fsf_file):
+    is_ica = False
+    outputs = []
+    with open(fsf_file, "rt") as fp:
+        text = fp.read()
+        if "set fmri(inmelodic) 1" in text:
+            is_ica = True
+        for line in text.split("\n"):
+            if line.find("set fmri(outputdir)") > -1:
+                try:
+                    outputdir_spec = line.split('"')[-2]
+                    if os.path.exists(outputdir_spec):
+                        outputs["feat_dir"] = outputdir_spec
+                except:
+                    pass
+    
+    if not outputs:
+        if is_ica:
+            outputs = glob(os.path.join(os.getcwd(), "*ica"))[0]
+        else:
+            outputs = glob(os.path.join(os.getcwd(), "*feat"))[0]
+    print("Outputs from FEATmodel:", outputs)
+    return outputs
+    
