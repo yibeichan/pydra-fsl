@@ -25,14 +25,20 @@
 #   tests_inputs:
 #   tests_outputs:
 
-# FEAT:
-#   output_requirements:
-#   output_callables:
-#   output_templates:
-#   inputs_drop:
-#   doctest:
-#   tests_inputs:
-#   tests_outputs:
+FEAT:
+  output_requirements:
+    feat_dir: [fsf_file]
+  output_callables:
+    feat_dir: FEAT_output
+  output_templates:
+  inputs_drop:
+  doctest:
+    in_file: "test.fsf"
+    cmdline: "feat test.fsf"
+  tests_inputs:
+    - 
+  tests_outputs:
+    - feat_dir
 
 # FEATModel:
 #   output_requirements:
