@@ -1,14 +1,40 @@
 # Cluster:
 #   output_requirements:
+#     out_index_file: [in_file]
+#     out_localmax_txt_file: 
+#     out_localmax_vol_file: 
+#     out_max_file: 
+#     out_mean_file: 
+#     out_pval_file: 
+#     out_size_file: 
+#     out_threshold_file: [in_file, threshold]
 #   output_callables:
 #   output_templates:
 #   inputs_drop:
 #   doctest:
+#     in_file: zstat1.nii.gz
+#     out_localmax_txt_file: stats.txt
+#     threshold: 2.3
+#     use_mm: True
+#     cmdline: cluster --in=zstat1.nii.gz --olmax=stats.txt --thresh=2.3000000000 --mm
 #   tests_inputs:
+#     - in_file: zstat1.nii.gz
+#       threshold: 2.3
+#       use_mm: True
 #   tests_outputs:
-
+#     - out_max_file
+    
+    
 # ContrastMgr:
 #   output_requirements:
+#     copes:
+#     fstats:
+#     neffs:
+#     tstats:
+#     varcopes:
+#     zfstats:
+#     zstats:
+    
 #   output_callables:
 #   output_templates:
 #   inputs_drop:
@@ -18,6 +44,7 @@
 
 # DualRegression:
 #   output_requirements:
+#     out_dir: [group_IC_maps_4D, in_files, n_perm]
 #   output_callables:
 #   output_templates:
 #   inputs_drop:
@@ -33,15 +60,20 @@ FEAT:
   output_templates:
   inputs_drop:
   doctest:
-    in_file: "test.fsf"
-    cmdline: "feat test.fsf"
+    fsf_file: test.fsf
+    cmdline: feat test.fsf
   tests_inputs:
     - 
   tests_outputs:
-    - feat_dir
+    - AttributeError
 
 # FEATModel:
 #   output_requirements:
+#     con_file: [ev_files, fsf_file]
+#     design_cov: [ev_files, fsf_file]
+#     design_file: [ev_files, fsf_file]
+#     design_image: [ev_files, fsf_file]
+#     fcon_file: [ev_files, fsf_file]
 #   output_callables:
 #   output_templates:
 #   inputs_drop:
@@ -51,6 +83,7 @@ FEAT:
 
 # FEATRegister:
 #   output_requirements:
+#     fsf_file: [feat_dirs, reg_image]
 #   output_callables:
 #   output_templates:
 #   inputs_drop:
@@ -60,6 +93,14 @@ FEAT:
 
 # FILMGLS:
 #   output_requirements:
+#     corrections: 
+#     dof_file: 
+#     logfile: 
+#     param_estimates: 
+#     residual4d: 
+#     results_dir: 
+#     sigmasquareds: 
+#     thresholdac: 
 #   output_callables:
 #   output_templates:
 #   inputs_drop:
@@ -73,20 +114,36 @@ FEAT:
 #   output_templates:
 #   inputs_drop:
 #   doctest:
+#     cmdline: flameo --copefile=cope.nii.gz --covsplitfile=cov_split.mat --designfile=design.mat --ld=stats --maskfile=mask.nii --runmode=fe --tcontrastsfile=design.con --varcopefile=varcope.nii.gz
 #   tests_inputs:
 #   tests_outputs:
 
 # GLM:
 #   output_requirements:
+#     out_cope: 
+#     out_data: 
+#     out_f: 
+#     out_file: 
+#     out_pf: 
+#     out_res: 
+#     out_sigsq: 
+#     out_t: 
+#     out_varcb: 
+#     out_vnscales: 
+#     out_z: 
 #   output_callables:
 #   output_templates:
 #   inputs_drop:
 #   doctest:
+#     cmdline: fsl_glm -i functional.nii -d maps.nii -o functional_glm.nii
 #   tests_inputs:
 #   tests_outputs:
 
 # L2Model:
 #   output_requirements:
+#     design_con: 
+#     design_grp: 
+#     design_mat: 
 #   output_callables:
 #   output_templates:
 #   inputs_drop:
@@ -96,6 +153,8 @@ FEAT:
 
 # Level1Design:
 #   output_requirements:
+#     ev_files: 
+#     fsf_files: 
 #   output_callables:
 #   output_templates:
 #   inputs_drop:
@@ -105,15 +164,22 @@ FEAT:
 
 # MELODIC:
 #   output_requirements:
+#     out_dir:
+#     report_dir: 
 #   output_callables:
 #   output_templates:
 #   inputs_drop:
 #   doctest:
+#     cmdline: melodic -i functional.nii,functional2.nii,functional3.nii -a tica --bgthreshold=10.000000 --mmthresh=0.500000 --nobet -o groupICA.out --Ostats --Scon=subjectDesign.con --Sdes=subjectDesign.mat --Tcon=timeDesign.con --Tdes=timeDesign.mat --tr=1.500000
 #   tests_inputs:
 #   tests_outputs:
 
 # MultipleRegressDesign:
 #   output_requirements:
+#     design_con: 
+#     design_fts: 
+#     design_grp: 
+#     design_mat: 
 #   output_callables:
 #   output_templates:
 #   inputs_drop:
@@ -123,15 +189,25 @@ FEAT:
 
 # Randomise:
 #   output_requirements:
+#     f_corrected_p_files: 
+#     f_p_files: 
+#     fstat_files: 
+#     t_corrected_p_files: 
+#     t_p_files: 
+#     tstat_files: 
 #   output_callables:
 #   output_templates:
 #   inputs_drop:
 #   doctest:
+#     cmdline: randomise -i allFA.nii -o "randomise" -d design.mat -t design.con -m mask.nii
 #   tests_inputs:
 #   tests_outputs:
 
 # SMM:
 #   output_requirements:
+#     activation_p_map:
+#     deactivation_p_map: 
+#     null_p_map: 
 #   output_callables:
 #   output_templates:
 #   inputs_drop:
@@ -139,11 +215,17 @@ FEAT:
 #   tests_inputs:
 #   tests_outputs:
 
-# SmoothEstimate:
+# SmoothEstimate: # need new test data
 #   output_requirements:
+#     dlh: 
+#     resels: 
+#     volume: 
 #   output_callables:
 #   output_templates:
 #   inputs_drop:
 #   doctest:
+#     zstat_file: 
+#     mask_file: 
+#     cmdline: smoothest --mask=mask.nii --zstat=zstat1.nii.gz
 #   tests_inputs:
 #   tests_outputs:
