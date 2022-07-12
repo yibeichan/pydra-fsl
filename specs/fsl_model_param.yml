@@ -49,8 +49,17 @@
 #   output_templates:
 #   inputs_drop:
 #   doctest:
+#     in_files: [functional.nii, functional2.nii, functional3.nii]
+#     group_IC_maps_4D: allFA.nii
+#     des_norm: False
+#     one_sample_group_mean: True
+#     n_perm: 10
+#     out_dir: my_output_directory
+#     cmdline: dual_regression allFA.nii 0 -1 10 my_output_directory functional.nii functional2.nii functional3.nii
 #   tests_inputs:
+#     - 
 #   tests_outputs:
+#     - 
 
 FEAT:
   output_requirements:
@@ -108,15 +117,33 @@ FEAT:
 #   tests_inputs:
 #   tests_outputs:
 
-# FLAMEO:
-#   output_requirements:
-#   output_callables:
-#   output_templates:
-#   inputs_drop:
-#   doctest:
-#     cmdline: flameo --copefile=cope.nii.gz --covsplitfile=cov_split.mat --designfile=design.mat --ld=stats --maskfile=mask.nii --runmode=fe --tcontrastsfile=design.con --varcopefile=varcope.nii.gz
-#   tests_inputs:
-#   tests_outputs:
+FLAMEO:
+  output_requirements:
+    copes: [cope_file, cov_split_file, design_file, mask_file, run_mode, t_con_file]
+    fstats: [f_con_file]
+    mrefvars: 
+    pes: 
+    res4d: 
+    tdof:
+    tstats: 
+    var_copes: [var_cope_file]
+    weights: 
+    zfstats: [f_con_file]
+    zstats:
+  output_callables:
+  output_templates:
+  inputs_drop:
+  doctest:
+    cope_file: cope.nii.gz
+    var_cope_file: varcope.nii.gz
+    cov_split_file: cov_split.mat
+    design_file: design.mat
+    t_con_file: design.con
+    mask_file: mask.nii
+    run_mode: fe
+    cmdline: flameo --copefile=cope.nii.gz --covsplitfile=cov_split.mat --designfile=design.mat --ld=stats --maskfile=mask.nii --runmode=fe --tcontrastsfile=design.con --varcopefile=varcope.nii.gz
+  tests_inputs:
+  tests_outputs:
 
 # GLM:
 #   output_requirements:
