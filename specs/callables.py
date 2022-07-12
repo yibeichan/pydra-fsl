@@ -120,4 +120,54 @@ def FEAT_output(fsf_file):
             outputs = glob(os.path.join(os.getcwd(), "*feat"))[0]
     print("Outputs from FEATmodel:", outputs)
     return outputs
+  
     
+def ConvertXFM_output(inputs):
+    import attr
+    
+    infile1 = inputs.in_file
+    if inputs.invert_xfm:
+        return f"{infile1}_inv"
+    elif inputs.concat_xfm:
+        infile2 = inputs.in_file2
+        return f"{infile1}_{infile2}"
+    elif inputs.fix_scale_skew:
+        return f"{infile1}_fix"
+    else:
+        raise Exception(
+            f"this function requires invert_xfm, or concat_xfm,"
+            f"or fix_scale_skew"
+        )
+
+        
+        
+    
+# def Cluster_output(field):
+#     filemap = {
+#         "out_index_file": "index",
+#         "out_threshold_file": "threshold",
+#         "out_localmax_txt_file": "localmax.txt",
+#         "out_localmax_vol_file": "localmax",
+#         "out_size_file": "size",
+#         "out_max_file": "max",
+#         "out_mean_file": "mean",
+#         "out_pval_file": "pval",
+#     }
+#     outputs = []
+#     for key, suffix in list(filemap.items()):
+#         outkey = key[4:]
+#         inval = getattr(field, key)
+#         if isdefined(inval):
+#             if isinstance(inval, bool):
+#                 if inval:
+#                     change_ext = True
+#                     if suffix.endswith(".txt"):
+#                         change_ext = False
+#                     outputs[outkey] = self._gen_fname(
+#                         self.inputs.in_file,
+#                         suffix="_" + suffix,
+#                         change_ext=change_ext,
+#                     )
+#             else:
+#                 outputs[outkey] = os.path.abspath(inval)
+#     return outputs
