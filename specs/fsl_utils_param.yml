@@ -55,12 +55,15 @@ ConvertXFM:
   output_requirements:
     out_file: [in_file]
   output_templates:
-    out_file: "{in_file}_inv"
+    out_file: ConvertXFM_output
   doctest:
-    in_file: "flirt.mat"
-    cmdline: "convert_xfm -omat flirt_inv.mat -inverse flirt.mat"
+    in_file: flirt.mat
+    invert_xfm: True
+    out_file: flirt_inv.mat
+    cmdline: convert_xfm -omat flirt_inv.mat -inverse flirt.mat
   tests_inputs:
-    -
+    - in_file: flirt.mat
+      invert_xfm: True
   tests_outputs:
     - out_file
 
@@ -119,13 +122,10 @@ FilterRegressor:
     - AttributeError
 
 ImageMaths:
-
   output_requirements:
     out_file: [in_file]
-
   output_templates:
     out_file: "{in_file}_maths"
-
   inputs_drop:  # input from nipype interface that's not required by fsl
     - suffix
 
