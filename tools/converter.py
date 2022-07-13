@@ -324,7 +324,10 @@ class FSLConverter:
                 tp_pdr = str
         elif getattr(field, "genfile"):
             if nm in self.interface_spec["output_templates"]:
-                metadata_pdr["output_file_template"] = self.interface_spec["output_templates"][nm]
+                if isinstance(self.interface_spec["output_templates"][nm], list):
+                    metadata_pdr["output_file_template"] = self.interface_spec["output_templates"][nm][0]
+                else:
+                    metadata_pdr["output_file_template"] = self.interface_spec["output_templates"][nm]
                 if tp_pdr in [
                     specs.File,
                     specs.Directory,
@@ -403,16 +406,24 @@ class FSLConverter:
         return (tp_pdr, metadata_pdr)
 
     def function_callables(self):
+        fun_names = []
         if not self.interface_spec["output_callables"]:
-            return ""
+            if self.interface_spec["output_templates"]:
+                tmpls = list(self.interface_spec["output_templates"].values())
+                for tmpl in tmpls:
+                    if isinstance(tmpl, list):
+                        fun_names.append(tmpl[0])
+                if len(fun_names) < 1:
+                    pass
         python_functions_spec = Path(os.path.dirname(__file__)) / "../specs/callables.py"
         if not python_functions_spec.exists():
             raise Exception(
-                "specs/callables.py file is needed if output_callables in the spec files"
+                "specs/callables.py file is needed if functions are used in the spec files"
             )
-        fun_str = ""
-        fun_names = list(set(self.interface_spec["output_callables"].values()))
+        
+        fun_names.extend(list(set(self.interface_spec["output_callables"].values())))
         fun_names.sort()
+        fun_str = ""
         for fun_nm in fun_names:
             fun = getattr(callables, fun_nm)
             fun_str += inspect.getsource(fun) + "\n"
