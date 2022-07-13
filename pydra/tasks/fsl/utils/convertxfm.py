@@ -93,7 +93,7 @@ output_fields = [
         {
             "help_string": "output transformation matrix",
             "requires": ["in_file"],
-            "output_file_template": ["ConvertXFM_output"],
+            "output_file_template": "ConvertXFM_output",
         },
     )
 ]
