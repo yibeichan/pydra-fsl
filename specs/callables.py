@@ -125,18 +125,24 @@ def FEAT_output(fsf_file):
 def ConvertXFM_output(inputs):
     import attr
     
-    infile1 = inputs.in_file
+    in_file = inputs.in_file
     if inputs.invert_xfm:
-        return f"{infile1}_inv"
+        return f"{in_file}_inv"
     elif inputs.concat_xfm:
-        infile2 = inputs.in_file2
-        return f"{infile1}_{infile2}"
+        if inputs.in_file2.exists():
+            in_file2 = inputs.in_file2
+            return f"{in_file}_{in_file2}"
+        else:
+            raise Exception(
+                "in_file2 is needed to use concat_xfm"
+            )
+            
     elif inputs.fix_scale_skew:
-        return f"{infile1}_fix"
+        return f"{in_file}_fix"
     else:
         raise Exception(
-            f"this function requires invert_xfm, or concat_xfm,"
-            f"or fix_scale_skew"
+            "this function requires invert_xfm, or concat_xfm,"
+            "or fix_scale_skew"
         )
 
         
