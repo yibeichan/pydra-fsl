@@ -6,17 +6,21 @@ import typing as ty
 def ConvertXFM_output(inputs):
     import attr
 
-    infile1 = inputs.in_file
+    in_file = inputs.in_file
     if inputs.invert_xfm:
-        return f"{infile1}_inv"
+        return f"{in_file}_inv"
     elif inputs.concat_xfm:
-        infile2 = inputs.in_file2
-        return f"{infile1}_{infile2}"
+        if inputs.in_file2.exists():
+            in_file2 = inputs.in_file2
+            return f"{in_file}_{in_file2}"
+        else:
+            raise Exception("in_file2 is needed to use concat_xfm")
+
     elif inputs.fix_scale_skew:
-        return f"{infile1}_fix"
+        return f"{in_file}_fix"
     else:
         raise Exception(
-            f"this function requires invert_xfm, or concat_xfm," f"or fix_scale_skew"
+            "this function requires invert_xfm, or concat_xfm," "or fix_scale_skew"
         )
 
 
@@ -79,6 +83,7 @@ input_fields = [
             "help_string": "final transformation matrix",
             "argstr": "-omat {out_file}",
             "position": 1,
+            "output_file_template": "ConvertXFM_output",
         },
     ),
 ]
@@ -86,17 +91,7 @@ ConvertXFM_input_spec = specs.SpecInfo(
     name="Input", fields=input_fields, bases=(specs.ShellSpec,)
 )
 
-output_fields = [
-    (
-        "out_file",
-        specs.File,
-        {
-            "help_string": "output transformation matrix",
-            "requires": ["in_file"],
-            "output_file_template": "ConvertXFM_output",
-        },
-    )
-]
+output_fields = []
 ConvertXFM_output_spec = specs.SpecInfo(
     name="Output", fields=output_fields, bases=(specs.ShellOutSpec,)
 )
