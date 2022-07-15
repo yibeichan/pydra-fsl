@@ -5,7 +5,15 @@ from pydra.engine.specs import (
     BaseSpec
 )
 from pydra.engine.task import FunctionTask
-import typing as ty
+import os
+from typing import Any, Union
+try:
+    from typing import Literal  # raises a mypy error for <3.8, doesn't for >=3.8
+except ImportError:
+    try:
+        from typing_extensions import Literal
+    except ImportError:
+        Literal = None
 
 Level1Design_input_fields = [
     (
@@ -18,7 +26,7 @@ Level1Design_input_fields = [
     ),
     (
         'session_info',
-        ty.Any,
+        Any,
         {
             "help_string": "Session specific information generated " "by ``modelgen.SpecifyModel``",
             "mandatory": True,
@@ -26,13 +34,13 @@ Level1Design_input_fields = [
     ),
     (
         'base',
-        ty.Union(
-            dict(ty.Literal("dgamma"), dict(ty.Literal("derivs"), bool)),
-            dict(ty.Literal("gamma"), dict(ty.Literal("derivs", "gammasigma", "gammadelay"))),
-            dict(ty.Literal("custom"), dict(ty.Literal("bfcustompath"), str)),
-            dict(ty.Literal("none"), dict()),
-            dict(ty.Literal("none"), ty.Literal("none")),
-        ),
+        Union[
+            dict[Literal["dgamma"], dict[Literal["derivs"], bool]],
+            dict[Literal["gamma"], dict[Literal["derivs", "gammasigma", "gammadelay"]]],
+            dict[Literal["custom"], dict[Literal["bfcustompath"], str]],
+            dict[Literal["none"], dict],
+            dict[Literal["none"], Literal["none"]],
+        ],
         {
             "help_string": "name of basis function and options e.g., " "{'dgamma': {'derivs': True}}",
             "mandatory": True,
@@ -40,7 +48,7 @@ Level1Design_input_fields = [
     ),
     (
         'orthogonalization',
-        dict(int,dict(int, ty.Union(bool,int))),
+        dict[int,dict[int, Union[bool,int]]],
         {
             "help_string": "which regressors to make orthogonal e.g., \
             {1: {0:0,1:0,2:0}, 2: {0:1,1:1,2:0}} to make the second \
@@ -60,25 +68,25 @@ Level1Design_input_fields = [
     ),
     (
         'contrasts',
-        list(
-            ty.Union(
-                tuple(
-                    str, ty.Literal("T"), list(str), list(float),
-                ),
-                tuple(
-                    str, ty.Literal("T"), list(str), list(float),
-                ),
-                tuple(
-                    str, ty.Literal("F"), list(
-                        ty.Union(
-                            tuple(str, ty.Literal("T"), list(str), list(float),),
-                            tuple(str, ty.Literal("T"), list(str), list(float),),
-                        )
-                    )
-                )
+        list[
+            Union[
+                tuple[
+                    str, Literal("T"), list[str], list[float],
+                ],
+                tuple[
+                    str, Literal("T"), list[str], list[float],
+                ],
+                tuple[
+                    str, Literal("F"), list[
+                        Union[
+                            tuple[str, Literal["T"], list[str], list[float],],
+                            tuple[str, Literal["T"], list[str], list[float],],
+                        ]
+                    ]
+                ]
 
-            )
-        ),
+            ]
+        ],
         {
             "help_string": "Option to model serial correlations using an \
             autoregressive estimator (order 1). Setting this option is only \
@@ -253,7 +261,7 @@ class Level1Design(Level1DesignInterface):
                 ev_txt += ev_ortho.substitute(c0=i, c1=j, orthogonal=orthogonal)
                 ev_txt += "\n"
         # add contrast info to fsf file
-        if contrasts not :
+        if contrasts not in [None, attr.NOTHING]:
             contrast_header = load_template("feat_contrast_header.tcl")
             contrast_prolog = load_template("feat_contrast_prolog.tcl")
             contrast_element = load_template("feat_contrast_element.tcl")
