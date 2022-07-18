@@ -250,22 +250,38 @@ output_fields = [
     (
         "zstats",
         specs.MultiOutputFile,
-        {"help_string": "z-stat file for each contrast", "callable": "FLAMEO_output"},
+        {
+            "help_string": "z-stat file for each contrast",
+            "requires": ["t_con_file"],
+            "callable": "FLAMEO_output",
+        },
     ),
     (
         "tstats",
         specs.MultiOutputFile,
-        {"help_string": "t-stat file for each contrast", "callable": "FLAMEO_output"},
+        {
+            "help_string": "t-stat file for each contrast",
+            "requires": ["t_con_file"],
+            "callable": "FLAMEO_output",
+        },
     ),
     (
         "zfstats",
         specs.MultiOutputFile,
-        {"help_string": "z stat file for each f contrast", "callable": "FLAMEO_output"},
+        {
+            "help_string": "z stat file for each f contrast",
+            "requires": ["f_con_file"],
+            "callable": "FLAMEO_output",
+        },
     ),
     (
         "fstats",
         specs.MultiOutputFile,
-        {"help_string": "f-stat file for each contrast", "callable": "FLAMEO_output"},
+        {
+            "help_string": "f-stat file for each contrast",
+            "requires": ["f_con_file"],
+            "callable": "FLAMEO_output",
+        },
     ),
     (
         "mrefvars",
