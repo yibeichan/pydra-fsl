@@ -3,16 +3,22 @@ from pydra import ShellCommandTask
 import typing as ty
 
 
-def MELODIC_output(inputs):
+def MELODIC_output(field, inputs):
     import os, attr
 
-    outputs = {}
-    if inputs.out_dir not in [None, attr.NOTHING]:
-        outputs["out_dir"] = os.path.abspath(inputs.out_dir)
-    else:
-        outputs["out_dir"] = os.getcwd()
-    if inputs.report not in [None, attr.NOTHING]:
-        outputs["report_dir"] = os.path.join(outputs["out_dir"], "report")
+    name = field.name
+    if name == "out_dir":
+        if inputs.out_dir not in [None, attr.NOTHING]:
+            outputs = inputs.out_dir
+        else:
+            outputs = os.getcwd()
+    elif name == "report_dir":
+        if inputs.report not in [None, attr.NOTHING]:
+            if inputs.out_dir not in [None, attr.NOTHING]:
+                out_dir = inputs.out_dir
+            else:
+                out_dir = os.getcwd()
+            outputs = os.path.join(out_dir, "report")
     return outputs
 
 
