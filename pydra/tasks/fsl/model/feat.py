@@ -5,7 +5,6 @@ import typing as ty
 
 def FEAT_output(fsf_file):
     is_ica = False
-    outputs = []
     with open(fsf_file, "rt") as fp:
         text = fp.read()
         if "set fmri(inmelodic) 1" in text:
@@ -15,7 +14,7 @@ def FEAT_output(fsf_file):
                 try:
                     outputdir_spec = line.split('"')[-2]
                     if os.path.exists(outputdir_spec):
-                        outputs["feat_dir"] = outputdir_spec
+                        outputs = outputdir_spec
                 except:
                     pass
 
