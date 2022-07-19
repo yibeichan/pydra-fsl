@@ -18,9 +18,10 @@ def Cluster_output(field, inputs):
     }
 
     name = field.name
-    outname = name[4:]
-    suffix = filemap[name]
-    inval = getattr(inputs, name)
+    inpname = f"out_{name}"
+    suffix = filemap[inpname]
+    inval = getattr(inputs, inpname)
+    in_file = inputs.in_file
     if inval not in [None, attr.NOTHING]:
         if isinstance(inval, bool):
             if inval:
@@ -29,7 +30,7 @@ def Cluster_output(field, inputs):
             return inval
     else:
         raise Exception(
-            f"this function should be run only for {list(filemap.keys())} not {name}"
+            f"this function should be run only for {[x[4:] for x in list(filemap.keys())]} not {name}"
         )
 
 
@@ -224,7 +225,80 @@ Cluster_input_spec = specs.SpecInfo(
     name="Input", fields=input_fields, bases=(specs.ShellSpec,)
 )
 
-output_fields = []
+output_fields = [
+    (
+        "index_file",
+        specs.File,
+        {
+            "help_string": "output of cluster index (in size order)",
+            "requires": ["in_file"],
+            "callable": "Cluster_output",
+        },
+    ),
+    (
+        "threshold_file",
+        specs.File,
+        {
+            "help_string": "thresholded image",
+            "requires": ["in_file"],
+            "callable": "Cluster_output",
+        },
+    ),
+    (
+        "localmax_txt_file",
+        specs.File,
+        {
+            "help_string": "local maxima text file",
+            "requires": ["in_file"],
+            "callable": "Cluster_output",
+        },
+    ),
+    (
+        "localmax_vol_file",
+        specs.File,
+        {
+            "help_string": "output of local maxima volume",
+            "requires": ["in_file"],
+            "callable": "Cluster_output",
+        },
+    ),
+    (
+        "size_file",
+        specs.File,
+        {
+            "help_string": "filename for output of size image",
+            "requires": ["in_file"],
+            "callable": "Cluster_output",
+        },
+    ),
+    (
+        "max_file",
+        specs.File,
+        {
+            "help_string": "filename for output of max image",
+            "requires": ["in_file"],
+            "callable": "Cluster_output",
+        },
+    ),
+    (
+        "mean_file",
+        specs.File,
+        {
+            "help_string": "filename for output of mean image",
+            "requires": ["in_file"],
+            "callable": "Cluster_output",
+        },
+    ),
+    (
+        "pval_file",
+        specs.File,
+        {
+            "help_string": "filename for image output of log pvals",
+            "requires": ["in_file"],
+            "callable": "Cluster_output",
+        },
+    ),
+]
 Cluster_output_spec = specs.SpecInfo(
     name="Output", fields=output_fields, bases=(specs.ShellOutSpec,)
 )
