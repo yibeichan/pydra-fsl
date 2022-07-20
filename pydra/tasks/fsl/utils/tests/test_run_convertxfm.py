@@ -1,4 +1,4 @@
-import os, pytest
+import re, os, pytest
 from pathlib import Path
 from ..convertxfm import ConvertXFM
 
@@ -7,7 +7,13 @@ from ..convertxfm import ConvertXFM
     "FSLDIR" not in os.environ, reason="no FSL found", raises=FileNotFoundError
 )
 @pytest.mark.parametrize(
-    "inputs, outputs", [({"in_file": "flirt.mat", "invert_xfm": True}, ["out_file"])]
+    "inputs, outputs",
+    [
+        (
+            {"in_file": "flirt.mat", "invert_xfm": True},
+            ["out_file"],
+        )
+    ],
 )
 def test_ConvertXFM(test_data, inputs, outputs):
     if inputs is None:
@@ -16,8 +22,15 @@ def test_ConvertXFM(test_data, inputs, outputs):
     else:
         for key, val in inputs.items():
             try:
-                if key == "in_file":
-                    inputs[key] = Path(test_data) / val
+                pattern = r"\.[a-zA-Z]*"
+                if isinstance(val, str):
+                    if re.findall(pattern, val) != []:
+                        inputs[key] = Path(test_data) / val
+                    else:
+                        inputs[key] = eval(val)
+                elif isinstance(val, list):
+                    if all(re.findall(pattern, _) != [] for _ in val):
+                        inputs[key] = [Path(test_data) / _ for _ in val]
                 else:
                     inputs[key] = eval(val)
             except:

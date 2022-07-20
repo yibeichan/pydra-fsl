@@ -83,7 +83,7 @@ input_fields = [
             "help_string": "final transformation matrix",
             "argstr": "-omat {out_file}",
             "position": 1,
-            "output_file_template": "ConvertXFM_output",
+            "output_file_template": ConvertXFM_output,
         },
     ),
 ]
