@@ -1,0 +1,3 @@
+flameo --copefile=/Users/yibeichen/GDrive/GitHub/pydra-fsl/pydra/tasks/fsl/tests/data/cope_merged.nii.gz --varcopefile=/Users/yibeichen/GDrive/GitHub/pydra-fsl/pydra/tasks/fsl/tests/data/varcope_merged.nii.gz --maskfile=/Users/yibeichen/GDrive/GitHub/pydra-fsl/pydra/tasks/fsl/tests/data/mask.nii.gz --designfile=/Users/yibeichen/GDrive/GitHub/pydra-fsl/pydra/tasks/fsl/tests/data/design.mat --tcontrastsfile=/Users/yibeichen/GDrive/GitHub/pydra-fsl/pydra/tasks/fsl/tests/data/design.con --covsplitfile=/Users/yibeichen/GDrive/GitHub/pydra-fsl/pydra/tasks/fsl/tests/data/design.grp --runmode=fe --ld=/Users/yibeichen/GDrive/GitHub/pydra-fsl/pydra/tasks/fsl/tests/data/stats 
+---------------------------------------------
+
