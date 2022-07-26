@@ -228,7 +228,9 @@ input_fields = [
         {"help_string": "outputs individual probability maps", "argstr": "-p"},
     ),
 ]
-FAST_input_spec = specs.SpecInfo(name="Input", fields=input_fields, bases=(specs.ShellSpec,))
+FAST_input_spec = specs.SpecInfo(
+    name="Input", fields=input_fields, bases=(specs.ShellSpec,)
+)
 
 output_fields = [
     (
@@ -261,7 +263,9 @@ output_fields = [
         {"requires": [("probability_maps", True)], "callable": "FAST_output_nclass"},
     ),
 ]
-FAST_output_spec = specs.SpecInfo(name="Output", fields=output_fields, bases=(specs.ShellOutSpec,))
+FAST_output_spec = specs.SpecInfo(
+    name="Output", fields=output_fields, bases=(specs.ShellOutSpec,)
+)
 
 
 class FAST(ShellCommandTask):
