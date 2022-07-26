@@ -218,7 +218,7 @@ FLAMEO_input_spec = specs.SpecInfo(
 output_fields = [
     (
         "pes",
-        specs.File,
+        specs.MultiOutputFile,
         {
             "help_string": "Parameter estimates for each column of the design matrix for each voxel",
             "callable": FLAMEO_output,
@@ -226,7 +226,7 @@ output_fields = [
     ),
     (
         "res4d",
-        specs.File,
+        specs.MultiOutputFile,
         {
             "help_string": "Model fit residual mean-squared error for each time point",
             "callable": FLAMEO_output,
@@ -234,7 +234,7 @@ output_fields = [
     ),
     (
         "copes",
-        specs.File,
+        specs.MultiOutputFile,
         {
             "help_string": "Contrast estimates for each contrast",
             "callable": FLAMEO_output,
@@ -242,7 +242,7 @@ output_fields = [
     ),
     (
         "var_copes",
-        specs.File,
+        specs.MultiOutputFile,
         {
             "help_string": "Variance estimates for each contrast",
             "callable": FLAMEO_output,
@@ -250,7 +250,7 @@ output_fields = [
     ),
     (
         "zstats",
-        specs.File,
+        specs.MultiOutputFile,
         {
             "help_string": "z-stat file for each contrast",
             "requires": ["t_con_file"],
@@ -259,7 +259,7 @@ output_fields = [
     ),
     (
         "tstats",
-        specs.File,
+        specs.MultiOutputFile,
         {
             "help_string": "t-stat file for each contrast",
             "requires": ["t_con_file"],
@@ -268,7 +268,7 @@ output_fields = [
     ),
     (
         "zfstats",
-        specs.File,
+        specs.MultiOutputFile,
         {
             "help_string": "z stat file for each f contrast",
             "requires": ["f_con_file"],
@@ -277,7 +277,7 @@ output_fields = [
     ),
     (
         "fstats",
-        specs.File,
+        specs.MultiOutputFile,
         {
             "help_string": "f-stat file for each contrast",
             "requires": ["f_con_file"],
@@ -286,7 +286,7 @@ output_fields = [
     ),
     (
         "mrefvars",
-        specs.File,
+        specs.MultiOutputFile,
         {
             "help_string": "mean random effect variances for each contrast",
             "callable": FLAMEO_output,
@@ -294,7 +294,7 @@ output_fields = [
     ),
     (
         "tdof",
-        specs.File,
+        specs.MultiOutputFile,
         {
             "help_string": "temporal dof file for each contrast",
             "callable": FLAMEO_output,
@@ -302,12 +302,12 @@ output_fields = [
     ),
     (
         "weights",
-        specs.File,
+        specs.MultiOutputFile,
         {"help_string": "weights file for each contrast", "callable": FLAMEO_output},
     ),
     (
         "stats_dir",
-        specs.File,
+        specs.Directory,
         {
             "help_string": "directory storing model estimation output",
             "callable": FLAMEO_output,

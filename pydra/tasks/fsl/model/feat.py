@@ -44,7 +44,7 @@ FEAT_input_spec = specs.SpecInfo(
 )
 
 output_fields = [
-    ("feat_dir", ty.Any, {"requires": ["fsf_file"], "callable": "FEAT_output"})
+    ("feat_dir", specs.Directory, {"requires": ["fsf_file"], "callable": FEAT_output})
 ]
 FEAT_output_spec = specs.SpecInfo(
     name="Output", fields=output_fields, bases=(specs.ShellOutSpec,)

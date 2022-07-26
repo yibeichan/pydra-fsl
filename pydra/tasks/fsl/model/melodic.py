@@ -325,8 +325,8 @@ MELODIC_input_spec = specs.SpecInfo(
 )
 
 output_fields = [
-    ("out_dir", ty.Any, {"callable": "MELODIC_output"}),
-    ("report_dir", ty.Any, {"callable": "MELODIC_output"}),
+    ("out_dir", specs.Directory, {"callable": MELODIC_output}),
+    ("report_dir", specs.Directory, {"callable": MELODIC_output}),
 ]
 MELODIC_output_spec = specs.SpecInfo(
     name="Output", fields=output_fields, bases=(specs.ShellOutSpec,)

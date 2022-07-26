@@ -276,7 +276,7 @@ FILMGLS_input_spec = specs.SpecInfo(
 output_fields = [
     (
         "results_dir",
-        specs.File,
+        specs.Directory,
         {
             "help_string": "Directory storing model estimation output",
             "callable": FILMGLS_output,
@@ -284,7 +284,7 @@ output_fields = [
     ),
     (
         "param_estimates",
-        specs.File,
+        specs.MultiOutputFile,
         {
             "help_string": "Parameter estimates for each column of the design matrix",
             "callable": FILMGLS_output,
@@ -326,32 +326,32 @@ output_fields = [
     ),
     (
         "copes",
-        specs.File,
+        specs.MultiOutputFile,
         {"help_string": "Contrast estimates for each contrast", "requires": ["tcon_file"], "callable": FILMGLS_output},
     ),
     (
         "varcopes",
-        specs.File,
+        specs.MultiOutputFile,
         {"help_string": "Variance estimates for each contrast", "requires": ["tcon_file"], "callable": FILMGLS_output},
     ),
     (
         "zstats",
-        specs.File,
+        specs.MultiOutputFile,
         {"help_string": "z-stat file for each contrast", "requires": ["tcon_file"], "callable": FILMGLS_output},
     ),
     (
         "tstats",
-        specs.File,
+        specs.MultiOutputFile,
         {"help_string": "t-stat file for each contrast","requires": ["tcon_file"], "callable": FILMGLS_output},
     ),
     (
         "fstats",
-        specs.File,
+        specs.MultiOutputFile,
         {"help_string": "f-stat file for each contrast", "requires": ["fcon_file"],"callable": FILMGLS_output},
     ),
     (
         "zfstats",
-        specs.File,
+        specs.MultiOutputFile,
         {"help_string": "z-stat file for each F contrast", "requires": ["fcon_file"], "callable": FILMGLS_output},
     ),
 ]
