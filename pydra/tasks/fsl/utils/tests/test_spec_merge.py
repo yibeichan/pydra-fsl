@@ -1,13 +1,21 @@
 import re, os, shutil, pytest
 from pathlib import Path
-from ..filterregressor import FilterRegressor
+from ..merge import Merge
 
 
-@pytest.mark.parametrize("inputs, outputs", [])
-def test_FilterRegressor(test_data, inputs, outputs):
+@pytest.mark.parametrize(
+    "inputs, outputs",
+    [
+        (
+            {"in_files": ["test.nii", "test2.nii"], "dimension": "t", "tr": 2.25},
+            ["merged_file"],
+        )
+    ],
+)
+def test_Merge(test_data, inputs, outputs):
     if inputs is None:
         in_file = Path(test_data) / "test.nii.gz"
-        task = FilterRegressor(in_file=in_file)
+        task = Merge(in_file=in_file)
     else:
         for key, val in inputs.items():
             try:
@@ -29,7 +37,7 @@ def test_FilterRegressor(test_data, inputs, outputs):
                     inputs[key] = eval(val)
             except:
                 pass
-        task = FilterRegressor(**inputs)
+        task = Merge(**inputs)
     assert set(task.generated_output_names) == set(
         ["return_code", "stdout", "stderr"] + outputs
     )
