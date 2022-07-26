@@ -1,4 +1,4 @@
-import re, os, pytest
+import re, os, shutil, pytest
 from pathlib import Path
 from ..flameo import FLAMEO
 
@@ -18,7 +18,7 @@ from ..flameo import FLAMEO
                 "log_dir": "stats"
             },
             [
-                "cope",
+                "copes",
                 "var_copes",
                 "mrefvars",
                 "pes",
@@ -44,7 +44,9 @@ def test_FLAMEO(test_data, inputs, outputs):
                     if re.findall(pattern, val) != []:
                         inputs[key] = Path(test_data) / val
                     elif "_dir" in key:
-                        inputs[key] = Path(test_data) / val
+                        dirpath = Path(test_data) / val
+                        if dirpath.exists() and dirpath.is_dir():
+                            shutil.rmtree(dirpath)
                     else:
                         inputs[key] = eval(val)
                 elif isinstance(val, list):

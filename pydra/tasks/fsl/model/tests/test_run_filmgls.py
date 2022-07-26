@@ -1,4 +1,4 @@
-import re, os, pytest
+import re, os, shutil, pytest
 from pathlib import Path
 from ..filmgls import FILMGLS
 
@@ -38,7 +38,9 @@ def test_FILMGLS(test_data, inputs, outputs):
                     if re.findall(pattern, val) != []:
                         inputs[key] = Path(test_data) / val
                     elif "_dir" in key:
-                        inputs[key] = Path(test_data) / val
+                        dirpath = Path(test_data) / val
+                        if dirpath.exists() and dirpath.is_dir():
+                            shutil.rmtree(dirpath)
                     else:
                         inputs[key] = eval(val)
                 elif isinstance(val, list):

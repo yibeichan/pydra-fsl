@@ -1,4 +1,4 @@
-import re, os, pytest
+import re, os, shutil, pytest
 from pathlib import Path
 from ..flameo import FLAMEO
 
@@ -47,7 +47,10 @@ def test_FLAMEO(test_data, inputs, outputs):
                     if re.findall(pattern, val) != []:
                         inputs[key] = Path(test_data) / val
                     elif "_dir" in key:
-                        inputs[key] = Path(test_data) / val
+                        dirpath = Path(test_data) / val
+                        if dirpath.exists() and dirpath.is_dir():
+                            shutil.rmtree(dirpath)
+                        inputs[key] = dirpath
                     else:
                         inputs[key] = eval(val)
                 elif isinstance(val, list):
@@ -63,6 +66,7 @@ def test_FLAMEO(test_data, inputs, outputs):
     )
     res = task()
     print("RESULT: ", res)
+    print(res.output)
     for out_nm in outputs:
         if isinstance(getattr(res.output, out_nm), list):
             assert [os.path.exists(x) for x in getattr(res.output, out_nm)]

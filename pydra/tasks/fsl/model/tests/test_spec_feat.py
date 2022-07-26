@@ -1,4 +1,4 @@
-import os, pytest
+import re, os, pytest
 from pathlib import Path
 from ..feat import FEAT
 
@@ -11,8 +11,15 @@ def test_FEAT(test_data, inputs, outputs):
     else:
         for key, val in inputs.items():
             try:
-                if "file" in key:
-                    inputs[key] = Path(test_data) / val
+                pattern = r"\.[a-zA-Z]*"
+                if isinstance(val, str):
+                    if re.findall(pattern, val) != []:
+                        inputs[key] = Path(test_data) / val
+                    else:
+                        inputs[key] = eval(val)
+                elif isinstance(val, list):
+                    if all(re.findall(pattern, _) != [] for _ in val):
+                        inputs[key] = [Path(test_data) / _ for _ in val]
                 else:
                     inputs[key] = eval(val)
             except:
@@ -31,8 +38,13 @@ def test_FEAT_exception(test_data, inputs, error):
     else:
         for key, val in inputs.items():
             try:
-                if "file" in key:
-                    inputs[key] = Path(test_data) / val
+                pattern = r"\.[a-zA-Z]*"
+                if isinstance(val, str):
+                    if re.findall(pattern, val) != []:
+                        inputs[key] = Path(test_data) / val
+                elif isinstance(val, list):
+                    if all(re.findall(pattern, _) != [] for _ in val):
+                        inputs[key] = [Path(test_data) / _ for _ in val]
                 else:
                     inputs[key] = eval(val)
             except:
