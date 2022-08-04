@@ -10,17 +10,16 @@ from ..cluster import Cluster
     "inputs, outputs",
     [
         (
-            {"in_file": "zstat1.nii.gz", "threshold": 2.3, "use_mm": True},
+            {"in_file": "zstat1.nii.gz", "out_threshold_file": True, "threshold": 2.3, "use_mm": True},
             [
-                "out_index_file",
-                "out_localmax_txt_file",
-                "out_localmax_vol_file",
-                "out_threshold_file",
-                "out_max_file",
-                "out_mean_file",
-                "out_pval_file",
-                "out_size_file",
-                "out_threshold_file",
+                'out_size_file',
+                'out_index_file',
+                'out_mean_file',
+                'out_localmax_txt_file',
+                'out_localmax_vol_file',
+                'out_max_file',
+                'out_pval_file',
+                'out_threshold_file'
             ],
         )
     ],
@@ -46,10 +45,12 @@ def test_Cluster(test_data, inputs, outputs):
             except:
                 pass
         task = Cluster(**inputs)
+        print(task.generated_output_names)
     assert set(task.generated_output_names) == set(
         ["return_code", "stdout", "stderr"] + outputs
     )
     res = task()
     print("RESULT: ", res)
+    print(res.output)
     for out_nm in outputs:
         assert getattr(res.output, out_nm).exists()
